@@ -91,7 +91,7 @@ Adafruit_BluefruitLE_UART::~Adafruit_BluefruitLE_UART()
             'irqPin' is not a HW interrupt pin false will be returned.
 */
 /******************************************************************************/
-bool Adafruit_BluefruitLE_UART::begin(boolean debug)
+bool Adafruit_BluefruitLE_UART::begin(boolean debug, uint32_t speed)
 {
   _verbose = debug;
   _intercharwritedelay = 0;
@@ -106,16 +106,16 @@ bool Adafruit_BluefruitLE_UART::begin(boolean debug)
     delay(1);
   }
 
-  // Bluefruit baudrate is fixed to 9600
+  // Set Bluefruit baud rate
   if (hs) {
-    hs->begin(9600);
+    hs->begin(speed);
 
     #ifdef ARDUINO_STM32_FEATHER
     hs->enableFlowControl();
     #endif
   } else {
 #if SOFTWARE_SERIAL_AVAILABLE
-    ss->begin(9600);
+    ss->begin(speed);
 #endif
   }
 
